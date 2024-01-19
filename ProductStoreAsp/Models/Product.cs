@@ -18,5 +18,7 @@ namespace ProductStoreAsp.Models
         public int CategoryId { get; set; }
 
         public List<Order>? Orders { get; set; }
+
+        public List<AppUser>? AppUsers { get; set; }
     }
 }

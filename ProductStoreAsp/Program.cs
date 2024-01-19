@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ProductStoreAsp.Data;
 using ProductStoreAsp.Models;
+using ProductStoreAsp.Repositories;
+using ProductStoreAsp.Repositories.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +32,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.AddAuthorization();
+
+builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
 
 var app = builder.Build();
 

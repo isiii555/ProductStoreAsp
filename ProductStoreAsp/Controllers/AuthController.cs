@@ -1,4 +1,5 @@
-﻿using Mapster;
+﻿using Ardalis.GuardClauses;
+using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -14,9 +15,9 @@ namespace ProductStoreAsp.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
 
         public AuthController(SignInManager<AppUser> signInManager,UserManager<AppUser> userManager,RoleManager<IdentityRole> roleManager) { 
-            _signInManager = signInManager;
-            _userManager = userManager;
-            _roleManager = roleManager;
+            _signInManager = Guard.Against.Null(signInManager);
+            _userManager = Guard.Against.Null(userManager);
+            _roleManager = Guard.Against.Null(roleManager);
         }
 
         public IActionResult Login()
@@ -60,11 +61,21 @@ namespace ProductStoreAsp.Controllers
                 if (oldUser is null)
                 {
                     var newUser = model.Adapt<AppUser>();
+
+                    if (!await _roleManager.RoleExistsAsync("User"))
+                    {
+                        var resultIdentity = await _roleManager.CreateAsync(new IdentityRole("User"));
+                        if (!resultIdentity.Succeeded) throw new Exception(resultIdentity.Errors.First().Description);
+                    }
+
                     var result = await _userManager.CreateAsync(newUser, model!.Password);
+
                     if (result.Succeeded)
                     {
+                        await _userManager.AddToRoleAsync(newUser, "User");
                         return RedirectToAction("Index", "Product");
                     }
+
                     foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError(error.Code, error.Description);

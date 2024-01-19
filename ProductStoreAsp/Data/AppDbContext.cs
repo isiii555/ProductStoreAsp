@@ -20,7 +20,13 @@ namespace ProductStoreAsp.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AppUser>()
-                .HasKey(x => x.Id);
+                .HasKey(a => a.Id);
+
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.User)
+                .WithMany(a => a.Orders)
+                .HasForeignKey(o => o.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Product>()
                 .HasMany(p => p.Orders)
@@ -32,6 +38,10 @@ namespace ProductStoreAsp.Data
                 .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<AppUser>()
+                .HasMany(a => a.Products)
+                .WithMany(p => p.AppUsers);
+
             base.OnModelCreating(modelBuilder);
         }
 
@@ -39,11 +49,13 @@ namespace ProductStoreAsp.Data
         {
             foreach (var entry in this.ChangeTracker.Entries())
             {
-                ((BaseEntity)entry.Entity).ModifiedTime = DateTime.Now;
+                if (entry.Entity is BaseEntity) {
+                    ((BaseEntity)entry.Entity).ModifiedTime = DateTime.Now;
 
-                if (entry.State == EntityState.Added)
-                {
-                    ((BaseEntity)entry.Entity).CreationTime = DateTime.Now;
+                    if (entry.State == EntityState.Added)
+                    {
+                        ((BaseEntity)entry.Entity).CreationTime = DateTime.Now;
+                    }
                 }
             }
 

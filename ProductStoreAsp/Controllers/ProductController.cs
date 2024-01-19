@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using ProductStoreAsp.Models;
 using ProductStoreAsp.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace ProductStoreAsp.Controllers
 {
@@ -28,8 +30,9 @@ namespace ProductStoreAsp.Controllers
 
         [Authorize(Roles = "User")]
         [HttpPost]
-        public IActionResult AddToCartProduct(int productId) 
-        { 
+        public IActionResult AddToCartProduct() 
+        {
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             return View(); 
         }
 
