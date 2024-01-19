@@ -1,0 +1,16 @@
+﻿@model LoginUserViewModel
+
+<div class="login-container">
+    <form asp-action="Login" asp-controller="Auth" method="post">
+        <h1>Login</h1>
+        <label for="email"><b>Email</b></label>
+        <span asp-validation-for="Email"></span>
+        <input asp-for="Email" type="text" placeholder="Enter Email" id="email" required>
+
+        <label for="psw"><b>Password</b></label>
+        <span asp-validation-for="Password"></span>
+        <input asp-for="Password" type="password" placeholder="Enter Password" id="psw" required>
+
+        <button type="submit" class="loginbtn">Login</button>
+    </form>
+</div>
