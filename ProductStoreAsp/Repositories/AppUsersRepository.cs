@@ -23,5 +23,23 @@ namespace ProductStoreAsp.Repositories
 
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task ClearCart(string userId)
+        {
+            var user = await _dbContext.AppUsers.Include(a => a.Products).FirstOrDefaultAsync(a => a.Id == userId);
+
+            user!.Products!.Clear();
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<AppUser?> GetUserByIdAsync(string userId)
+        {
+            return await _dbContext.AppUsers
+                .Include(a => a.Orders)!
+                .Include(a => a.Products)!
+                .ThenInclude(p => p.Category)
+                .FirstOrDefaultAsync(a => a.Id == userId);
+        }
     }
 }

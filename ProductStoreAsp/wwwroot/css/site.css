@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
 * {
     padding : 0px;
     margin : 0px;
@@ -25,4 +27,71 @@ body {
 
 html,body {
     height : 100%;
+}
+
+nav {
+    height : 8%;
+    border-bottom : 1px solid #eee;
+}
+
+main {
+    height : 92%;
+
+    padding : 0 100px;
+}
+
+nav {
+    display : flex;
+    justify-content : space-between;
+}
+
+nav .user-navbar {
+    list-style-type : none;
+    display : flex;
+    height : 100%;
+    margin-bottom : 0px;
+    padding : 0;
+}
+
+nav .user-navbar li {
+    border-right : 1px solid #eee;
+}
+
+nav .user-navbar li a {
+    font-family : 'Poppins';
+    display: flex;
+    justify-content: center;
+    padding : 0px 10px;
+    align-items: center;
+    height: 100%;
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+}
+
+nav .user-navbar li a:hover {
+    background : black;
+    color : white;
+}
+
+nav .login {
+    display : flex;
+    align-items :center;
+    gap : 10px;
+    margin-right : 10px;
+    font-size : 12px;
+}
+
+nav .login h5 {
+    margin : 0;
+}
+
+nav .login a {
+    font-size : 16px;
+    padding : 8px 12px;
+    border-radius : 4px;
+    background-color : black;
+    text-decoration : none;
+    color : white;
+    height : max-content;
 }

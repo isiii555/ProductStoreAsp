@@ -1,0 +1,26 @@
+﻿@{
+    Layout = "_Layout";
+    var products = ViewData["products"] as List<Product>;
+}
+
+<div class="cart-container">
+    <div class="products">
+        @foreach (var product in products!)
+        {
+            <div class="product">
+                <div class="product-img">
+                    <img src="https://www.lumens.com/on/demandware.static/-/Sites-lumens-site-catalog/default/dwac603637/images/subdept/thumbs/furniture-living-room-furniture.jpg" href="@product.Name img">
+                </div>
+                <div class="product-info">
+                    <h3><b>Name</b> : @product.Name</h3>
+                    <h3><b>Description</b> : @product.Description</h3>
+                    <h3><b>Price</b> : @product.Price</h3>
+                    <h3><b>Category</b> : @product.Category.Name</h3>
+                </div>
+            </div>
+        }
+    </div>
+    <form asp-action ="Order" asp-controller="Product" method="post" class="footer">
+        <button type="submit">Order now!</button>
+    </form>
+</div>

@@ -1,9 +1,12 @@
-﻿using ProductStoreAsp.Models.ViewModels;
+﻿using ProductStoreAsp.Models;
+using ProductStoreAsp.Models.ViewModels;
 
 namespace ProductStoreAsp.Repositories.Abstractions
 {
     public interface IOrdersRepository
     {
-        Task AddOrderAsync(AddOrderViewModel orderViewModel);
+        Task<List<Order>> GetAllOrdersAsync();
+
+        Task AddOrderAsync(Order order);
     }
 }

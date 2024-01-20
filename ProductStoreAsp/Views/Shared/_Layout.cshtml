@@ -7,9 +7,25 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/register.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/user-index.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/orders.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/cart.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProductStoreAsp.styles.css" asp-append-version="true" />
 </head>
 <body>
-    @RenderBody()
+    <nav>
+        <ul class="user-navbar">
+            <li><a asp-action="Index" asp-controller="Product">Products</a></li>
+            <li><a asp-action="Orders" asp-controller="Product">Orders</a></li>
+            <li><a asp-action="Cart" asp-controller="Product">Cart</a></li>
+        </ul>
+        <div class="login">
+            <h5>@User!.Identity!.Name</h5>
+            <a asp-action="LogOut" asp-controller="Auth">Log out</a>
+        </div>
+    </nav>
+    <main>
+        @RenderBody()
+    </main>
 </body>
 </html>

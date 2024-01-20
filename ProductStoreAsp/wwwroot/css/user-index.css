@@ -1,0 +1,55 @@
+﻿.products-container {
+    margin-top : 10px;
+    display : grid;
+    grid-template-columns : auto auto auto auto;
+    width : 100%;
+    gap : 10px;
+}
+
+.header {
+    margin-top : 10px;
+    width : 100%;
+    justify-content : flex-end;
+    display : flex;
+    gap : 10px;
+}
+
+.header form select {
+    border-radius : 4px;
+    border : none;
+    background : #0094ff;
+    color : white;
+    padding : 4px 10px;
+}
+
+.header form button {
+   border : none;
+   border-radius : 4px;
+   padding : 4px 18px;
+}
+
+.products-container .product-card {
+    display : flex;
+    flex-direction : column;
+    gap : 10px;
+    padding : 14px;
+    padding-top : 0px;
+    border : 1px solid black;
+    border-radius : 4px;
+    overflow : hidden;
+}
+
+.product-card a {
+    text-decoration : none;
+    padding : 10px;
+    color : black;
+    width : max-content;
+    border : 1px solid black;
+    transition : 1s all;
+    border-radius : 4px;
+    &:hover {
+        background : black;
+        color : white;
+    }
+}
+

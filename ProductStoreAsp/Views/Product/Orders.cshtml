@@ -1,0 +1,39 @@
+﻿@{
+    Layout = "_Layout";
+    var orders = ViewData["orders"] as List<Order>;
+}
+
+<div class="orders-container">
+    <table class="orders-table">
+        <thead>
+            <tr>
+                <th>Order Id</th>
+                <th>Date</th>
+                <th>Total price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in orders!)
+            {
+                <tr>
+                    <td>
+                        @order.Id
+                    </td>
+                    <td>
+                        @order.CreationTime
+                    </td>
+                    <td>
+                        @{
+                            int totalPrice = 0;
+                            foreach (var product in order.Products!)
+                            {
+                                totalPrice += product.Price;
+                            }
+                        }
+                        @totalPrice $
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

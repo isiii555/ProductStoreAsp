@@ -22,6 +22,10 @@ namespace ProductStoreAsp.Controllers
 
         public IActionResult Login()
         {
+            if (User!.Identity!.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Product");
+            }
             return View();
         }
 
@@ -83,6 +87,13 @@ namespace ProductStoreAsp.Controllers
                 }
             }
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> LogOutAsync()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login");
         }
     }
 }

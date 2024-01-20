@@ -28,19 +28,19 @@ namespace ProductStoreAsp.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public Task GetAllProductsAsync()
+        public async Task<List<Product>> GetAllProductsAsync()
         {
-            return _dbContext.Products.ToListAsync();
+            return await _dbContext.Products.Include(p => p.Category).ToListAsync();
         }
 
-        public Task GetProductAsync(int productId)
+        public async Task<Product> GetProductAsync(int productId)
         {
-            return _dbContext.Products.FirstOrDefaultAsync(p => p.Id == productId);
+            return await _dbContext.Products.FirstOrDefaultAsync(p => p.Id == productId);
         }
 
-        public Task GetProductsByCategory(int categoryId)
+        public async Task<List<Product>> GetProductsByCategory(int categoryId)
         {
-            return _dbContext.Products.Where(p => p.CategoryId == categoryId).ToListAsync();
+            return await _dbContext.Products.Where(p => p.CategoryId == categoryId).ToListAsync();
         }
 
         public async Task RemoveProductAsync(int productId)
