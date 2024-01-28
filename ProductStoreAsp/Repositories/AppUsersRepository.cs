@@ -30,6 +30,8 @@ namespace ProductStoreAsp.Repositories
 
             user!.Products!.Clear();
 
+            await Console.Out.WriteLineAsync("Clear");
+
             await _dbContext.SaveChangesAsync();
         }
 

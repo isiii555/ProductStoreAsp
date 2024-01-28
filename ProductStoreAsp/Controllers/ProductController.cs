@@ -61,9 +61,10 @@ namespace ProductStoreAsp.Controllers
                 UserId = user.Id
             };
 
-            await _ordersRepository.AddOrderAsync(order);
-
-            //await _appUsersRepository.ClearCart(id);
+            await _ordersRepository.AddOrderAsync(order).ContinueWith(async (task) =>
+            {
+                await _appUsersRepository.ClearCart(id);
+            }) ;
 
             return RedirectToAction("Index");
         }
