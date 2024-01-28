@@ -3,26 +3,23 @@
 @{
     Layout = "_AuthLayout";
 }
-<div class="form-container">
-    <form asp-action="Register" asp-controller="Auth" method="post">
-            <h1>Register</h1>
 
-            <label for="username"><b>UserName</b></label>
-            <span asp-validation-for="UserName"></span>
-            <input asp-for="UserName" type="text" placeholder="Enter Username" id="username" required>
+<div class="h-100 w-100 d-flex justify-content-center align-items-center">
+    <form class="d-flex flex-column w-50 h-100" asp-action="Register" asp-controller="Auth" method="post">
+        <h1>Register</h1>
+        <span asp-validation-for="UserName"></span>
+        <input asp-for="UserName" type="text" placeholder="Enter Username" id="username" required>
+        <span asp-validation-for="Email"></span>
+        <input asp-for="Email" type="text" placeholder="Enter Email" id="email" required>
+        <span asp-validation-for="Password"></span>
+        <input asp-for="Password" type="password" placeholder="Enter Password" id="psw" required>
+        <span asp-validation-for="ConfirmPassword"></span>
+        <input asp-for="ConfirmPassword" type="password" placeholder="Repeat Password" id="psw-repeat" required>
+        <button type="submit" class="registerbtn">Register</button>
 
-            <label for="email"><b>Email</b></label>
-            <span asp-validation-for="Email"></span>
-            <input asp-for="Email" type="text" placeholder="Enter Email" id="email" required>
+        <label>Already have account?</label>
 
-            <label for="psw"><b>Password</b></label>
-            <span asp-validation-for="Password"></span>
-            <input asp-for="Password" type="password" placeholder="Enter Password" id="psw" required>
-
-            <label for="psw-repeat"><b>Repeat Password</b></label>
-            <span asp-validation-for="ConfirmPassword"></span>
-            <input asp-for="ConfirmPassword" type="password" placeholder="Repeat Password" id="psw-repeat" required>
-            <button type="submit" class="registerbtn">Register</button>
+        <a asp-action="Login" asp-controller="Auth" class="loginbtn d-flex justify-content-center text-decoration-none">Login</a>
     </form>
-</div>
 
+</div>

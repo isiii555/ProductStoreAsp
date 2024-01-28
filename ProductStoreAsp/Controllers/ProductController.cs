@@ -73,10 +73,13 @@ namespace ProductStoreAsp.Controllers
 
             var user = await _appUsersRepository.GetUserByIdAsync(id);
 
+            var orderedProducts = user!.Products!.ToList();
+
             var order = new Order()
             {
-                Products = user!.Products!,
-                UserId = user.Id
+                Products = orderedProducts,
+                UserId = user.Id,
+                IsAccepted = false,
             };
 
             await _ordersRepository.AddOrderAsync(order);

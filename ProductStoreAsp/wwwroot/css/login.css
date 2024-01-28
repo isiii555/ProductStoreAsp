@@ -1,6 +1,7 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Open+Sans&family=Roboto&family=Roboto+Slab&family=Source+Sans+3&family=Stylish&family=Sulphur+Point&display=swap');
 
 .login-container {
+    overflow : hidden;
     height: 100%;
     display: flex;
     flex-direction: column;

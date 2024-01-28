@@ -16,5 +16,9 @@
         <input asp-for="Password" type="password" placeholder="Enter Password" id="psw" required>
 
         <button type="submit" class="loginbtn">Login</button>
+
+        <label>Don't have account?</label>
+
+        <a asp-action="Register" asp-controller = "Auth" class="loginbtn d-flex justify-content-center text-decoration-none">Register</a>
     </form>
 </div>
