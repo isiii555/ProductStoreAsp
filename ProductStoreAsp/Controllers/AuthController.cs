@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ProductStoreAsp.Models;
 using ProductStoreAsp.Models.ViewModels;
+using System.Security.Claims;
 
 namespace ProductStoreAsp.Controllers
 {
@@ -24,7 +25,10 @@ namespace ProductStoreAsp.Controllers
         {
             if (User!.Identity!.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Product");
+                if (User.IsInRole("Admin"))
+                    return RedirectToAction("IndexAdmin", "Product");
+                else if (User.IsInRole("User"))
+                    return RedirectToAction("Index", "Product");
             }
             return View();
         }
@@ -40,7 +44,11 @@ namespace ProductStoreAsp.Controllers
                     var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Index", "Product");
+                        var roles = await _userManager.GetRolesAsync(user);
+                        if (roles.Contains("Admin"))
+                            return RedirectToAction("IndexAdmin", "Product");
+                        else if (roles.Contains("User"))
+                            return RedirectToAction("Index", "Product");
                     }
                     ModelState.AddModelError("password", "Password is not valid");
                 }

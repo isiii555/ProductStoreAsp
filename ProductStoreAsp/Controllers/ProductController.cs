@@ -35,8 +35,10 @@ namespace ProductStoreAsp.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult IndexAdmin()
+        public async Task<IActionResult> IndexAdmin()
         {
+            ViewData["products"] = await _productsRepository.GetAllProductsAsync();
+            ViewData["categories"] = await _categoriesRepository.GetCategoriesAsync();
             return View();
         }
 
@@ -45,6 +47,22 @@ namespace ProductStoreAsp.Controllers
         {
             ViewData["orders"] = await _ordersRepository.GetAllOrdersAsync();
             return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+
+        public async Task<IActionResult> OrdersAdmin()
+        {
+            ViewData["orders"] = await _ordersRepository.GetAllOrdersAdminAsync();
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("setorderstatus/{id}/{status}")]
+        public async Task<IActionResult> SetOrderStatus(int id,bool status)
+        {
+            await _ordersRepository.SetOrderStatusAsync(id, status);
+            return RedirectToAction("OrdersAdmin");
         }
 
         [Authorize(Roles = "User")]
@@ -61,10 +79,9 @@ namespace ProductStoreAsp.Controllers
                 UserId = user.Id
             };
 
-            await _ordersRepository.AddOrderAsync(order).ContinueWith(async (task) =>
-            {
-                await _appUsersRepository.ClearCart(id);
-            }) ;
+            await _ordersRepository.AddOrderAsync(order);
+
+            await _appUsersRepository.ClearCart(id);
 
             return RedirectToAction("Index");
         }
@@ -106,37 +123,42 @@ namespace ProductStoreAsp.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult AddProduct()
+        public async Task<IActionResult> AddProduct()
         {
+            ViewData["categories"] = await _categoriesRepository.GetCategoriesAsync();
             return View();
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult AddProduct(ProductViewModel addProductViewModel)
+        public async Task<IActionResult> AddProduct(ProductViewModel addProductViewModel)
         {
+            await _productsRepository.AddProductAsync(addProductViewModel);
+            return RedirectToAction("IndexAdmin");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            await _productsRepository.RemoveProductAsync(id);
+            return RedirectToAction("IndexAdmin");
+        }
+
+        [Authorize(Roles = "Admin")]
+
+        public async Task<IActionResult> UpdateProduct(int id)
+        {
+            ViewData["product"] = await _productsRepository.GetProductAsync(id);
+            ViewData["categories"] = await _categoriesRepository.GetCategoriesAsync();
             return View();
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult DeleteProduct(int id)
+        public async Task<IActionResult> UpdateProduct(int id, ProductViewModel editProductViewModel)
         {
-            return View();
-        }
-
-        [Authorize(Roles = "Admin")]
-
-        public IActionResult EditProduct(int id)
-        {
-            return View();
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public IActionResult EditProduct(int id, ProductViewModel editProductViewModel)
-        {
-            return View();
+            await _productsRepository.UpdateProductAsync(id, editProductViewModel);
+            return RedirectToAction("IndexAdmin");
         }
 
     }

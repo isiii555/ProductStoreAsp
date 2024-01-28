@@ -62,4 +62,29 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Product}/{action=Index}/{id?}");
 
+var container = app.Services.CreateScope();
+
+var userManager = container.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+
+var roleManager = container.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+if (!await roleManager.RoleExistsAsync("Admin"))
+{
+    var result = await roleManager.CreateAsync(new IdentityRole("Admin"));
+    if (!result.Succeeded) throw new Exception(result.Errors.First().Description);
+}
+var user = await userManager.FindByEmailAsync("admin@admin.com");
+if (user is null)
+{
+    user = new AppUser
+    {
+        UserName = "Admin",
+        Email = "admin@admin.com",
+    };
+    var result = await userManager.CreateAsync(user, "Admin191#");
+    if (!result.Succeeded) throw new Exception(result.Errors.First().Description);
+}
+
+await userManager.AddToRoleAsync(user, "Admin");
+
 app.Run();

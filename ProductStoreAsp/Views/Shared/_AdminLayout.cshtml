@@ -3,12 +3,27 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
-    <link rel="stylesheet" href="~/css/register.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/user-index.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/orders.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/cart.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ProductStoreAsp.styles.css" asp-append-version="true" />
 </head>
 <body>
-    @RenderBody()
+    <nav>
+        <ul class="user-navbar">
+            <li><a asp-action="IndexAdmin" asp-controller="Product">Products</a></li>
+            <li><a asp-action="OrdersAdmin" asp-controller="Product">Orders</a></li>
+            <li><a asp-action="AddProduct" asp-controller="Product">Add Product</a></li>
+        </ul>
+        <div class="login">
+            <h5>@User!.Identity!.Name</h5>
+            <a asp-action="LogOut" asp-controller="Auth">Log out</a>
+        </div>
+    </nav>
+    <main>
+        @RenderBody()
+    </main>
 </body>
 </html>

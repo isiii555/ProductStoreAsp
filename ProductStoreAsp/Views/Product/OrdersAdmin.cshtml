@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "_AdminLayout";
+    var orders = ViewData["orders"] as List<Order>;
+}
+
+<div class="orders-container">
+    <table class="orders-table">
+        <thead>
+            <tr>
+                <th>Order Id</th>
+                <th>Date</th>
+                <th>Total price</th>
+                <th>Accept/Decline</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in orders!)
+            {
+                <tr>
+                    <td>
+                        @order.Id
+                    </td>
+                    <td>
+                        @order.CreationTime
+                    </td>
+                    <td>
+                        @{
+                            int totalPrice = 0;
+                            foreach (var product in order.Products!)
+                            {
+                                totalPrice += product.Price;
+                            }
+                        }
+                        @totalPrice $
+                    </td>
+                    <td>
+                        <a class="p-1 bg-success text-white" asp-route-id="@order.Id" asp-route-status="true" asp-r asp-action="SetOrderStatus" asp-controller="Product">Accept</a>
+                        <a class="p-1 bg-danger text-white" asp-route-id="@order.Id" asp-route-status="false" asp-action="SetOrderStatus" asp-controller="Product">Decline</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

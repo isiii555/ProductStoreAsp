@@ -51,9 +51,23 @@ namespace ProductStoreAsp.Repositories
 
         }
 
-        public Task UpdateProductAsync(int productId,ProductViewModel productViewModel)
+        public async Task UpdateProductAsync(int productId,ProductViewModel productViewModel)
         {
-            throw new NotImplementedException();
+            var product = await _dbContext.Products.FirstOrDefaultAsync(p => p.Id == productId);
+
+            product!.Name = productViewModel.Name;
+            product.Description = productViewModel.Description;
+            product.Price = productViewModel.Price;
+            product.CategoryId = productViewModel.CategoryId;
+
+            if (productViewModel.Image is not null)
+                product.ImagePath = await UploadFileHelper.UploadFile(productViewModel.Image);
+            else
+                product.ImagePath = (await _dbContext.Products.FirstOrDefaultAsync(p => p.Id == productId)).ImagePath;
+
+            _dbContext.Products.Update(product);
+
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

@@ -8,6 +8,8 @@ namespace ProductStoreAsp.Models
 
         public AppUser User { get; set; } = null!;
 
+        public bool IsAccepted { get; set; } = false;
+
         public string UserId { get; set; } = null!;
     }
 }

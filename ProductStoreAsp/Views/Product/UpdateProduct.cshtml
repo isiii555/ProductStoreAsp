@@ -1,43 +1,48 @@
 ﻿@{
     Layout = "_AdminLayout";
-    ViewData["Title"] = "Add Product";
+    ViewData["Title"] = "Update Product";
+    var product = ViewData["product"] as Product;
     var categories = ViewData["Categories"] as List<Category>;
 }
 
 @model ProductViewModel
 
 <div class="d-flex justify-content-center align-items-center w-100 h-100">
-    <form class="d-flex flex-column gap-2 w-25" asp-action="AddProduct" method="post" enctype="multipart/form-data">
+    <form class="d-flex flex-column gap-2 w-25" asp-route-id = "@product.Id" asp-action="UpdateProduct" asp-controller = "Product" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label asp-for="Name"></label>
-            <input asp-for="Name" class="form-control" />
+            <input value="@product!.Name" asp-for="Name" class="form-control" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
         <div class="form-group">
             <label asp-for="Description"></label>
-            <textarea asp-for="Description" class="form-control"></textarea>
+            <input value="@product!.Description" asp-for="Description" class="form-control"/>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
 
         <div class="form-group">
             <label asp-for="Price"></label>
-            <input asp-for="Price" class="form-control" />
+            <input value="@product!.Price" asp-for="Price" class="form-control" />
             <span asp-validation-for="Price" class="text-danger"></span>
         </div>
 
         <div class="form-group">
             <label asp-for="Image"></label>
-            <input asp-for="Image" type="file" class="form-control" />
+            <input  asp-for="Image" type="file" class="form-control" />
             <span asp-validation-for="Image" class="text-danger"></span>
         </div>
 
         <div class="form-group d-flex flex-column">
             <label asp-for="CategoryId">Category</label>
-            <select asp-for="CategoryId" asp-items="@new SelectList(categories,nameof(Category.Id),nameof(Category.Name))"></select>
+            <select asp-for="CategoryId" asp-items="@new SelectList(categories,nameof(Category.Id),nameof(Category.Name))">
+                <option selected value="@product.CategoryId">
+                    @product.Category.Name
+                </option>
+            </select>
             <span asp-validation-for="CategoryId" class="text-danger"></span>
         </div>
 
-        <button type="submit" class="btn btn-primary">Add Product</button>
+        <button type="submit" class="btn btn-primary">Update Product</button>
     </form>
 </div>
